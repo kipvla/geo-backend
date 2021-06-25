@@ -14,4 +14,5 @@ app.use('/user', require('./routes/user'));
 app.use('/auth', require('./routes/auth'));
 
 connectDB();
+
 app.listen(PORT, () => console.log('Server running!'));
