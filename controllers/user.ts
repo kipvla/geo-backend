@@ -1,6 +1,6 @@
-const User = require('../models/user');
+import {Request, Response} from 'express'
 
-exports.getInfo = async (req, res) => {
+exports.getInfo = async (req: Request, res: Response) => {
     try{
         res.status(200)
         res.send('hey')
