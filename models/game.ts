@@ -31,4 +31,3 @@ const GameSchema = new mongoose.Schema(
 );
 
 export const Game = mongoose.model('game', GameSchema);
-// export default Game;

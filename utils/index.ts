@@ -1,9 +1,9 @@
-// import { User } from '@models';
-import { User } from '../models/user';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+
+import { User } from '@models';
 
 dotenv.config();
 
@@ -25,15 +25,12 @@ export const loginFunction = async (
     return res.status(401).json({ msg: 'Invalid username or password!' });
 
   const userPayload = { user: { id: user._id } };
-  console.log(process.env.JWT_SECRET, '++');
-  /*@ts-ignore*/
   if (process.env.JWT_SECRET)
     jwt.sign(
       userPayload,
       process.env.JWT_SECRET,
       { expiresIn: 3600 },
       (err, token) => {
-        console.log(token);
         if (err) throw err;
         res.status(200).json({ token });
       }

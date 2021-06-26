@@ -1,10 +1,9 @@
 import { Router } from 'express';
-// import { auth } from '@middleware';
-import { auth } from '../middleware/auth';
-const userRouter = Router();
+import { auth } from '@middleware';
 
-// TODO
-import userController from '../controllers/user';
+import { userController } from '@controller';
+
+const userRouter = Router();
 
 userRouter.get('/', auth, userController.getUser);
 

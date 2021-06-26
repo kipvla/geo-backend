@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { loginFunction, validateEmail } from '../utils';
 import bcrypt from 'bcryptjs';
-// import { User } from '@models';
-import { User } from '../models/user';
 import dotenv from 'dotenv';
+
+import { User } from '@models';
+import { loginFunction, validateEmail } from '../utils';
+
 dotenv.config();
 
 export const login = async (req: Request, res: Response) => {
@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { username, email, password, passwordRepeat } = req.body; // Backend validation just in case
+    const { username, email, password, passwordRepeat } = req.body;
     if (username.length === 0) {
       return res.status(400).json({ msg: 'You should insert a name!' });
     }
@@ -59,5 +59,4 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-const authController = { login, register };
-export default authController;
+export const authController = { login, register };
