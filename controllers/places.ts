@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import Place from '../models/place';
 import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
+
+import Place from '../models/place';
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_S3_ID,
@@ -15,6 +16,7 @@ const uploadImage = async (file: any, type: any) => {
     file.replace(/^data:image\/\w+;base64,/, ''),
     'base64'
   );
+
   const key = shortid.generate() + moment().valueOf();
 
   const params = {
@@ -25,12 +27,11 @@ const uploadImage = async (file: any, type: any) => {
     ContentType: type,
     ACL: 'public-read',
   };
-  let location = '';
 
   try {
     /* @ts-ignore */
     const { Location } = await s3.upload(params).promise();
-    location = Location;
+    let location = Location || '';
     return location;
   } catch (error) {
     console.log(error);
@@ -41,13 +42,17 @@ const uploadImage = async (file: any, type: any) => {
 const addPlace = async (req: Request, res: Response) => {
   try {
     const { placeImages, title, latitude, longitude } = req.body;
+
     const arrayOfURL = [];
+
     for (let i = 0; i < placeImages.length; i++) {
       const { data, mime } = placeImages[i];
       const currentURL = await uploadImage(data, mime);
       arrayOfURL.push(currentURL);
     }
+
     await Place.create({ title, latitude, longitude, images: arrayOfURL });
+
     res.status(200).send('Add place...');
   } catch (e) {
     res.status(500).send('Internal Server Error!');
