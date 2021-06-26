@@ -1,11 +1,8 @@
-export {}
-const express = require("express");
-const router = express.Router();
+import { Router } from 'express';
+const placesRouter = Router();
+import placeController from '../controllers/places';
 
-const placeController = require('../controllers/places');
+placesRouter.post('/add', placeController.addPlace);
 
-router.post('/add', placeController.addPlace);
-
-router.get('/', placeController.getPlaceFields);
-
-module.exports = router;
+placesRouter.get('/', placeController.getPlaceFields);
+export default placesRouter;
