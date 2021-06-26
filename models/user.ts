@@ -16,8 +16,8 @@ const UserSchema = new mongoose.Schema(
     },
     exp: {
       type: Number,
-      required: true
-    }
+      default: 0,
+    },
   },
   {
     versionKey: false,
@@ -25,5 +25,5 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model('user', UserSchema);
-export default User;
+export const User = mongoose.model('user', UserSchema);
+// export default User;

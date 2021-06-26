@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {ObjectID} from 'mongodb'
+import { ObjectID } from 'mongodb';
 
 const GameSchema = new mongoose.Schema(
   {
@@ -22,7 +22,7 @@ const GameSchema = new mongoose.Schema(
     currentTurn: {
       type: Number,
       default: 0,
-    }
+    },
   },
   {
     versionKey: false,
@@ -30,5 +30,5 @@ const GameSchema = new mongoose.Schema(
   }
 );
 
-const Game = mongoose.model('game', GameSchema);
-export default Game;
+export const Game = mongoose.model('game', GameSchema);
+// export default Game;

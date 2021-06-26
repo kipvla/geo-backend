@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import AWS from 'aws-sdk'
+import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
-import Place from '../models/place';
-import dotenv from 'dotenv'
+// import { Place } from '@models';
+import { Place } from '../models/place';
+import dotenv from 'dotenv';
 dotenv.config();
 
 const s3 = new AWS.S3({
@@ -30,7 +31,7 @@ const uploadImage = async (file: any, type: any) => {
   };
 
   try {
-     /* @ts-ignore */
+    /* @ts-ignore */
     const { Location } = await s3.upload(params).promise();
     let location = Location || '';
     return location;
