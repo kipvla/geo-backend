@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use('/user', require('./routes/user'));
 app.use('/auth', require('./routes/auth'));
+app.use('/places', require('./routes/places'));
+
 
 connectDB();
 
