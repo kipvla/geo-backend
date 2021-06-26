@@ -1,6 +1,8 @@
-import router from './';
+import { Router } from 'express';
+const placesRouter = Router();
 import placeController from '../controllers/places';
 
-router.post('/add', placeController.addPlace);
+placesRouter.post('/add', placeController.addPlace);
 
-router.get('/', placeController.getPlaceFields);
+placesRouter.get('/', placeController.getPlaceFields);
+export default placesRouter;

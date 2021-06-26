@@ -1,14 +1,19 @@
 import http from 'http';
 import express from 'express';
 import cors from 'cors';
-import router from './routes';
+import userRouter from './routes/user';
+import authRouter from './routes/auth';
+import placesRouter from './routes/places';
 
 const connectServer = (port: number): http.Server => {
   const app = express();
 
   app.use(cors());
   app.use(express.json());
-  app.use(router);
+
+  app.use('/user', userRouter);
+  app.use('/auth', authRouter);
+  app.use('/places', placesRouter);
 
   const server = http.createServer(app);
 
