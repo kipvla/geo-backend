@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
-// import { Place } from '@models';
-import { Place } from '../models/place';
 import dotenv from 'dotenv';
+
+import { Place } from '../models/place';
+
 dotenv.config();
 
 const s3 = new AWS.S3({
@@ -106,5 +107,4 @@ const getPlaceFields = async (req: Request, res: Response) => {
   }
 };
 
-const placeController = { addPlace, getPlaceFields, uploadImage };
-export default placeController;
+export const placeController = { addPlace, getPlaceFields, uploadImage };

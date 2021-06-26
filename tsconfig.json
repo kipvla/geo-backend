@@ -8,10 +8,10 @@
     "sourceMap": true,
     "strict": true,
     "outDir": "./dist",
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "@controller": ["./controllers"],
-      "@models": ["./models"],
+      "@models": ["models/index.ts"],
       "@middleware": ["./middleware"],
       "*": ["node_modules/*"]
     }

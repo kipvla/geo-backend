@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
-// import { User } from '@models';
-import { User } from '../models/user';
+import { User } from '../models';
 
 const getUser = async (req: Request, res: Response) => {
   try {
@@ -17,6 +16,4 @@ const getUser = async (req: Request, res: Response) => {
   }
 };
 
-const userController = { getUser };
-
-export default userController;
+export const userController = { getUser };
