@@ -1,21 +1,14 @@
-export {}
-const cors = require('cors');
-const express = require('express');
-const connectDB = require('./db/db');
-require('dotenv').config();
+import connectServer from './server';
 
-const PORT = process.env.PORT || 5000;
+import connectDB from './db';
+import dotenv from 'dotenv';
 
-const app = express();
+dotenv.config();
 
-app.use(cors());
-app.use(express.json());
+const PORT = Number(process.env.PORT) || 5000;
+const MONGO_URI = String(process.env.MONGO_URI);
 
-app.use('/user', require('./routes/user'));
-app.use('/auth', require('./routes/auth'));
-app.use('/places', require('./routes/places'));
+console.log(PORT, MONGO_URI);
 
-
-connectDB();
-
-app.listen(PORT, () => console.log('Server running!'));
+connectServer(PORT);
+connectDB(MONGO_URI);

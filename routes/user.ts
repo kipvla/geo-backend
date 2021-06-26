@@ -1,10 +1,5 @@
-export {}
-const express = require('express');
+import router from './';
 
-const router = express.Router();
-
-const userController = require('../controllers/user');
+import userController from '../controllers/user';
 
 router.get('/', userController.getInfo);
-
-module.exports = router;

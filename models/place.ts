@@ -1,5 +1,4 @@
-export {}
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const PlaceSchema = new mongoose.Schema(
   {
@@ -18,13 +17,13 @@ const PlaceSchema = new mongoose.Schema(
     images: {
       type: Array,
       required: true,
-    }
+    },
   },
   {
     versionKey: false,
     timestamps: true,
-  },
-)
+  }
+);
 
-const Place = mongoose.model('place', PlaceSchema)
-module.exports = Place
+const Place = mongoose.model('place', PlaceSchema);
+export default Place;
