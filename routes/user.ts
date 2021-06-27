@@ -6,5 +6,8 @@ import { userController } from '@controller';
 const userRouter = Router();
 
 userRouter.get('/', auth, userController.getUser);
+userRouter.put('/add-friend', auth, userController.sendFriendRequest);
+userRouter.put('/accept-request', auth, userController.acceptFriendRequest);
+userRouter.put('/decline-request', auth, userController.declineFriendRequest);
 
 export default userRouter;

@@ -6,6 +6,18 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    friendsList: {
+      type:Array,
+      default:[]
+    },
+    friendRequests: {
+      type:Array,
+      default:[]
+    },
+    pendingRequests: {
+      type:Array,
+      default:[]
+    },
     username: {
       type: String,
       required: true,
