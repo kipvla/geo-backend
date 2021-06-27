@@ -11,8 +11,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "editor.formatOnSave": true,
   "files.eol": "\n",
   "editor.tabSize": 2,
-  "eslint.enable": true
+  "eslint.enable": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "SimonSiefke.prettier-vscode"
 }

@@ -21,7 +21,11 @@ const GameSchema = new mongoose.Schema(
     },
     currentTurn: {
       type: Number,
-      default: 0,
+      default: 1,
+    },
+    guesses: {
+      type: Array,
+      default: [],
     },
   },
   {

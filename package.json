@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc && nodemon",
+    "dev": "nodemon",
     "start": "node dist/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -21,7 +21,7 @@
       "node_modules"
     ],
     "watch": [
-      "src"
+      "."
     ],
     "exec": "ts-node -r tsconfig-paths/register ./index.ts",
     "ext": "ts, js"
@@ -30,12 +30,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.170",
     "aws-sdk": "^2.935.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongoose": "^5.12.11",
     "shortid": "^2.2.16",
