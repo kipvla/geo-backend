@@ -21,7 +21,7 @@ RESPONSE
 
 -----
 
-AUTH **POST**: http://localhost:3001/auth/register REGISTERS A USER
+AUTH **POST**: http://localhost:3001/auth/register REGISTERS A USER
 
 REQUEST
 
@@ -56,7 +56,7 @@ RESPONSE
 
 -----------------------------------
 
-USER **GET**: http://localhost:3001/user GETS A USER
+USER **GET**: http://localhost:3001/user GETS A USER
 
 REQUEST
 
@@ -81,7 +81,7 @@ RESPONSE
 
 --------
 
-USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT
+USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT
 
 REQUEST
 
@@ -112,7 +112,12 @@ RESPONSE
             {
                 "id": "60d8d1b4594b2c042856204c",
                 "username": "ujwalka"
-            },    
+            },
+            //Previously sent request from sancar to charcarr
+             {
+                "id": "60d8d1b4590000000006204a",
+                "username": "charcarr"
+            }, 
         ],
         "exp": 0,
         "_id": "60d927a6669ad125fc25c822",
@@ -127,7 +132,7 @@ RESPONSE
 
 ----
 
-USER **PUT**: http://localhost:8000/user/accept-request ACCEPT RECIEVED REQUESTS
+USER **PUT**: http://localhost:8000/user/accept-request ACCEPT RECIEVED REQUESTS
 
 REQUEST
 
@@ -173,7 +178,7 @@ RESPONSE
 
 -----
 
-USER **PUT**: http://localhost:8000/user/decline-request DECLINE FRIEND REQUESTS
+USER **PUT**: http://localhost:8000/user/decline-request DECLINE FRIEND REQUESTS
 
 REQUEST
 
