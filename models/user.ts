@@ -12,10 +12,13 @@ const UserSchema = new mongoose.Schema(
     },
     friendRequests: {
       type: Array,
-
       default: [],
     },
     pendingRequests: {
+      type: Array,
+      default: [],
+    },
+    gameInvites: {
       type: Array,
       default: [],
     },

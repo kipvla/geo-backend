@@ -7,6 +7,10 @@ const GameSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isMultiplayer: {
+      type: Boolean,
+      default: false,
+    },
     userID: {
       type: ObjectID,
       required: true,
@@ -26,6 +30,10 @@ const GameSchema = new mongoose.Schema(
     guesses: {
       type: Array,
       default: [],
+    },
+    multiplayerGameID: {
+      type: ObjectID,
+      required: false,
     },
   },
   {
