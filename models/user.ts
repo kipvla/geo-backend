@@ -7,16 +7,17 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     friendsList: {
-      type:Array,
-      default:[]
+      type: Array,
+      default: [],
     },
     friendRequests: {
-      type:Array,
-      default:[]
+      type: Array,
+
+      default: [],
     },
     pendingRequests: {
-      type:Array,
-      default:[]
+      type: Array,
+      default: [],
     },
     username: {
       type: String,
