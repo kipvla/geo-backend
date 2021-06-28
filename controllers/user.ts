@@ -4,11 +4,24 @@ import { User } from '@models';
 
 const getUser = async (req: Request, res: Response) => {
   try {
-    res.status(200);
     const userId: string = res.locals.user.id;
 
     const user = await User.findById(userId).select('-password');
 
+    res.status(200);
+    res.json(user);
+  } catch (e) {
+    res.send('Internal Server Error!');
+    res.status(500);
+  }
+};
+
+const getUserByUsername = async (req: Request, res: Response) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username }).select('-password');
+    if (!user) return res.status(404).json({ msg: ' User does not exist' });
+    res.status(200);
     res.json(user);
   } catch (e) {
     res.send('Internal Server Error!');
@@ -111,4 +124,5 @@ export const userController = {
   sendFriendRequest,
   acceptFriendRequest,
   declineFriendRequest,
+  getUserByUsername,
 };

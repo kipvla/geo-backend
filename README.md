@@ -44,12 +44,6 @@ RESPONSE
 
 ----
 
-----------
-
-
-
-----
-
 ----
 
 **USER**
@@ -60,7 +54,31 @@ USER **GET**: http://localhost:3001/user GETS A USER
 
 REQUEST
 
-Headers:
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+RESPONSE
+
+```
+{
+    "friendsList": [],
+    "friendRequests": [...],
+    "pendingRequests": [],
+    "exp": 0,
+    "_id": "60d8d1b4594b2c042856204c",
+    "username": "sancar",
+    "email": "svyaca@gmail.com",
+    "createdAt": "2021-06-27T19:29:56.594Z",
+    "updatedAt": "2021-06-28T01:38:31.067Z"
+}
+```
+
+---
+
+USER **GET**: http://localhost:3001/:username GETS A USER BY USERNAME
+
+REQUEST
 
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
@@ -70,12 +88,15 @@ RESPONSE
 
 ```
 {
+    "friendsList": [],
+    "friendRequests": [...],
+    "pendingRequests": [],
     "exp": 0,
-    "_id": "60d7951d830a6f13986829bc",
-    "username": "test",
-    "email": "asdf@gmail.com",
-    "createdAt": "2021-06-26T20:59:09.332Z",
-    "updatedAt": "2021-06-26T20:59:09.332Z"
+    "_id": "60d8d1b4594b2c042856204c",
+    "username": "sancar",
+    "email": "svyaca@gmail.com",
+    "createdAt": "2021-06-27T19:29:56.594Z",
+    "updatedAt": "2021-06-28T01:38:31.067Z"
 }
 ```
 
@@ -85,13 +106,9 @@ USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM 
 
 REQUEST
 
-Headers
-
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
 ```
-
-
 
 ```
 {
@@ -135,8 +152,6 @@ RESPONSE
 USER **PUT**: http://localhost:8000/user/accept-request ACCEPT RECIEVED REQUESTS
 
 REQUEST
-
-Headers:
 
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
@@ -182,13 +197,9 @@ USER **PUT**: http://localhost:8000/user/decline-request DECLINE FRIEND REQUESTS
 
 REQUEST
 
-Headers:
-
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
 ```
-
-
 
 ```
 {
@@ -220,14 +231,6 @@ RESPONSE
 
 ```
 
-
-
---------
-
------------
-
-
-
 ------
 
 --------
@@ -239,8 +242,6 @@ RESPONSE
 GAME **GET**: http://localhost:8000/game  CREATES A GAME
 
 REQUEST
-
-Headers:
 
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
@@ -283,8 +284,6 @@ RESPONSE
 GAME **PUT**: http://localhost:8000/game/update UPDATES GAME STATE, TURNS "ACTIVE" TO "FALSE" AFTER THE LAST TURN
 
 REQUEST
-
-Headers:
 
 ```
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
