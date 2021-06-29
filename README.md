@@ -357,7 +357,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 RES: newly created game
 
 ```
-{
+{ //sancar's account
     "game": {
         "active": true,
         "isMultiplayer":true,
@@ -366,7 +366,7 @@ RES: newly created game
         "locations": [... ref previous example],
         "currentTurn": 1,
         "guesses": [],//Guesses have no shape
-        multiplayerGameID:"60d92e08669ad125fc25c823" //gameID when the game was created, common to all players
+        "multiplayerGameID":"60d92e08669ad125fc25c823" //sancar's game._id when the game was created, common to all players
         "_id": "60d92e08669ad125fc25c823",
         "userID": "60d927a6669ad125fc25c822",
         "createdAt": "2021-06-28T02:03:52.983Z",
@@ -388,8 +388,8 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 ```
 //from sancar's to kipvla
 {
-"gameID": 60d92e08669ad125fc25c823 //Same as created gameID
-"userToInviteID": 60d7951d830a6f13986829bc //charcarr's id (has to be in the friend's list to be able to send invite)
+"gameID": 60d92e08669ad125fc25c823 //multiplayerGameID from sancar
+"userToInviteID": 60d7951d830a6f13986829bc //kipvla's id (has to be in the friend's list to be able to send invite)
 }
 ```
 
@@ -427,8 +427,8 @@ RES: instance of newly created game
         "locations": [... ref previous example],
         "currentTurn": 1,
         "guesses": [], //Guesses have no shape
-        multiplayerGameID:"60d92e08669ad125fc25c823" //gameID when the game was created, common to all players
-        "_id": "60d92e08669ad125fc2asdf", //player's game instance
+        "multiplayerGameID":"60d92e08669ad125fc25c823" //game ID (sancar's) when the game was created
+        "_id": "60d92e08669ad125fc2asdf", //player's game instance- kipvla's
         "userID": "60d927a6669ad125fc25c821", //kipvla's account
         "createdAt": "2021-06-28T02:03:52.983Z",
         "updatedAt": "2021-06-28T02:11:43.657Z"
