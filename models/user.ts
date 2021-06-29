@@ -34,6 +34,14 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    currentLevel: {
+      type: Number,
+      default: 0,
+    },
+    highestScore: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     versionKey: false,

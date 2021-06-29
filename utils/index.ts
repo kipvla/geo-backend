@@ -78,3 +78,13 @@ export const calculateScore = (
   const score: string = (5000 * Math.exp(exponent)).toString();
   return parseInt(score);
 };
+
+export const calculateExp = (currentLevel: number, score: number) => {
+  const exponent: number = currentLevel / 100;
+  const exp = parseInt(((score * Math.exp(exponent)) / 1000).toString());
+  return exp;
+};
+
+export const calculateLevel = (totalExp: number) => {
+  return parseInt((totalExp / 100).toString());
+};
