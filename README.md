@@ -113,7 +113,7 @@ user: {
 
 --------
 
-USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT
+USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT * gets the ID and name by searching through the user profiles
 
 REQUEST
 
@@ -311,7 +311,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 
 ```
 {
-// Score from previous turn, ***NOT cumulative score***
+// Score from previous turn
  "turnScore":4001,
 
  "gameID": "60d92e08669ad125fc25c823",
@@ -377,7 +377,7 @@ RES: newly created game
 
 ---
 
-GAME POST: http://localhost:8000/game/multiplayer/send-invite SENDS INVITE
+GAME POST: http://localhost:8000/game/multiplayer/send-invite SENDS INVITE *to a friend after the newly created multiplayer game
 
 REQ
 
@@ -401,7 +401,7 @@ RES: msg
 
 ---
 
-GAME POST: http://localhost:8000/game/multiplayer/accept-invite ACCEPT INVITE
+GAME POST: http://localhost:8000/game/multiplayer/accept-invite ACCEPT INVITE *from gameInvites in userProfile
 
 REQ: from kipvla's account
 
@@ -411,7 +411,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 
 ```
 {
-gameID: "60d92e08669ad125fc25c823"
+gameID: "60d92e08669ad125fc25c823" //from game invites in the profile
 }
 ```
 
@@ -438,7 +438,7 @@ RES: instance of newly created game
 
 ---
 
-GAME POST: http://localhost:8000/game/multiplayer/decline-invite DECLINE INVITE
+GAME POST: http://localhost:8000/game/multiplayer/decline-invite DECLINE INVITE *from gameInvites in userProfile
 
 REQ: from charcarr's account
 
@@ -448,7 +448,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 
 ```
 {
-"gameID" :  60d92e08669ad125fc25c823
+"gameID" :  60d92e08669ad125fc25c823 //from game invites in the profile
 }
 ```
 
