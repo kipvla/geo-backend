@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 
-import { Place } from '@models';
-import { Game } from '@models';
-import { User } from '@models';
+import { Place } from '../models';
+import { Game } from '../models';
+import { User } from '../models';
 import { shuffle } from 'lodash';
-import { calculateExp } from 'utils';
-import { calculateLevel } from 'utils';
+import { calculateExp } from '../utils';
+import { calculateLevel } from '../utils';
 
 const createGame = async (req: Request, res: Response) => {
   try {
