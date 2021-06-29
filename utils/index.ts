@@ -24,16 +24,15 @@ export const loginFunction = async (
   if (!isMatch)
     return res.status(401).json({ msg: 'Invalid username or password!' });
   const userPayload = { user: { id: user._id } };
-  if (process.env.JWT_SECRET)
-    jwt.sign(
-      userPayload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.status(200).json({ token });
-      }
-    );
+  jwt.sign(
+    userPayload,
+    process.env.JWT_SECRET,
+    { expiresIn: 3600 },
+    (err, token) => {
+      if (err) throw err;
+      res.status(200).json({ token });
+    }
+  );
 };
 
 export const validateEmail = (email = '') => {
