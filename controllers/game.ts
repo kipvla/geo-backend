@@ -4,6 +4,8 @@ import { Place } from '@models';
 import { Game } from '@models';
 import { User } from '@models';
 import { shuffle } from 'lodash';
+import { calculateExp } from 'utils';
+import { calculateLevel } from 'utils';
 
 const createGame = async (req: Request, res: Response) => {
   try {
@@ -37,6 +39,27 @@ const updateGame = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+
+    const user = await User.findById(res.locals.user.id);
+
+    if (updatedGame.currentScore > user.highestScore) {
+      await User.findByIdAndUpdate(res.locals.user.id, {
+        $set: { highestScore: updatedGame.currentScore },
+      });
+    }
+
+    if (shouldGameEnd) {
+      const currentGameExp = calculateExp(
+        user.currentLevel,
+        updatedGame.currentScore
+      );
+      const userExp = currentGameExp + user.exp;
+      const userLevel = calculateLevel(userExp);
+      await User.findByIdAndUpdate(res.locals.user.id, {
+        $set: { exp: userExp, currentLevel: userLevel },
+      });
+    }
+
     res.status(201).json({ game: updatedGame });
   } catch (e) {
     console.log(e);
@@ -61,6 +84,7 @@ const createMultiplayerGame = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+
     res.status(201).json({ game: updatedGame });
   } catch (e) {
     res.send('Internal Server Error!');
@@ -135,6 +159,25 @@ const updateMultiplayerGame = async (req: Request, res: Response) => {
       },
       { new: true }
     );
+    const user = await User.findById(res.locals.user.id);
+
+    if (updatedGame.currentScore > user.highestScore) {
+      await User.findByIdAndUpdate(res.locals.user.id, {
+        $set: { highestScore: updatedGame.currentScore },
+      });
+    }
+
+    if (shouldGameEnd) {
+      const currentGameExp = calculateExp(
+        user.currentLevel,
+        updatedGame.currentScore
+      );
+      const userExp = currentGameExp + user.exp;
+      const userLevel = calculateLevel(userExp);
+      await User.findByIdAndUpdate(res.locals.user.id, {
+        $set: { exp: userExp, currentLevel: userLevel },
+      });
+    }
     res.status(201).json({ game: updatedGame });
   } catch (e) {
     console.log(e);
@@ -146,7 +189,9 @@ const updateMultiplayerGame = async (req: Request, res: Response) => {
 const getMultiplayerResults = async (req: Request, res: Response) => {
   try {
     const { gameID } = req.params;
-    const allResults = await Game.find({ multiplayerGameID: gameID });
+    const allResults = await Game.find({ multiplayerGameID: gameID }).sort({
+      currentScore: 1,
+    });
     console.log(allResults, gameID);
     res.status(201).json({ results: allResults });
   } catch (e) {
@@ -155,6 +200,7 @@ const getMultiplayerResults = async (req: Request, res: Response) => {
     res.status(500);
   }
 };
+
 export const gameController = {
   createGame,
   updateGame,
