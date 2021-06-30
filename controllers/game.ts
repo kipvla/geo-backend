@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import { Place } from '../models';
 import { Game } from '../models';
 import { User } from '../models';
