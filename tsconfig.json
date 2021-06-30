@@ -10,9 +10,6 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@controller": ["./controllers"],
-      "@models": ["models/index.ts"],
-      "@middleware": ["./middleware"],
       "*": ["node_modules/*"]
     }
   },

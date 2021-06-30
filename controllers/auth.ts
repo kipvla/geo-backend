@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 
-import { User } from '@models';
+import { User } from '../models';
 import { loginFunction, validateEmail } from '../utils';
 
 dotenv.config();

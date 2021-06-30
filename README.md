@@ -11,7 +11,7 @@ REQUEST
 }
 ```
 
-RESPONSE
+RESPONSE: token
 
 ```
 {
@@ -34,7 +34,7 @@ REQUEST
 }
 ```
 
-RESPONSE
+RESPONSE: msg
 
 ```
 {
@@ -58,19 +58,24 @@ REQUEST
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
 ```
 
-RESPONSE
+RESPONSE: user profile
 
 ```
 {
+user: {
     "friendsList": [],
     "friendRequests": [...],
     "pendingRequests": [],
     "exp": 0,
+    "currentLevel": 1,
+    "highestScore":0,
+    "gameInvites": []
     "_id": "60d8d1b4594b2c042856204c",
     "username": "sancar",
     "email": "svyaca@gmail.com",
     "createdAt": "2021-06-27T19:29:56.594Z",
     "updatedAt": "2021-06-28T01:38:31.067Z"
+}
 }
 ```
 
@@ -84,10 +89,11 @@ REQUEST
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
 ```
 
-RESPONSE
+RESPONSE: user profile
 
 ```
 {
+user: {
     "friendsList": [],
     "friendRequests": [...],
     "pendingRequests": [],
@@ -95,14 +101,19 @@ RESPONSE
     "_id": "60d8d1b4594b2c042856204c",
     "username": "sancar",
     "email": "svyaca@gmail.com",
+    "exp": 12000,
+    "currentLevel": 32,
+    "highestScore":1000000,
+    "gameInvites": []
     "createdAt": "2021-06-27T19:29:56.594Z",
     "updatedAt": "2021-06-28T01:38:31.067Z"
+}
 }
 ```
 
 --------
 
-USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT
+USER **PUT**: http://localhost:8000/user/add-friend SENDS A FRIEND REQUEST FROM USER ACCOUNT * gets the ID and name by searching through the user profiles
 
 REQUEST
 
@@ -117,7 +128,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 }
 ```
 
-RESPONSE
+RESPONSE: updated user profile
 
 ```
 //Sending request from sancar's account to ujwalka
@@ -134,12 +145,15 @@ RESPONSE
              {
                 "id": "60d8d1b4590000000006204a",
                 "username": "charcarr"
-            }, 
+            },
         ],
-        "exp": 0,
+        "exp": 12220,
         "_id": "60d927a6669ad125fc25c822",
         "username": "testuser",
         "email": "testuser@gmail.com",
+        "currentLevel": 32,
+        "highestScore":1000000,
+        "gameInvites": []
         "password": "$2a$10$DouUS0K09aI69O6elkFTWO8DdUI1E4EpLwdGO4CpM9z46qSNuJJ.e",
         "createdAt": "2021-06-28T01:36:38.881Z",
         "updatedAt": "2021-06-28T01:38:31.022Z"
@@ -164,7 +178,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 }
 ```
 
-RESPONSE
+RESPONSE: updated user profile
 
 ```
 // Accepting sancar's request in ujwalka's account
@@ -180,10 +194,13 @@ RESPONSE
         	***moved to friends list***
         ],
         "pendingRequests": [],
-        "exp": 0,
+        "exp": 12220,
         "_id": "60d927a6669ad125fc25c822",
         "username": "testuser",
         "email": "testuser@gmail.com",
+         "currentLevel": 32,
+         "highestScore":1000000,
+         "gameInvites": []
         "password": "$2a$10$DouUS0K09aI69O6elkFTWO8DdUI1E4EpLwdGO4CpM9z46qSNuJJ.e",
         "createdAt": "2021-06-28T01:36:38.881Z",
         "updatedAt": "2021-06-28T01:38:31.022Z"
@@ -208,7 +225,7 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 }
 ```
 
-RESPONSE
+RESPONSE: updated user profile
 
 ```
 //Declining the request in charcarr's account
@@ -219,10 +236,13 @@ RESPONSE
         ***sancar's request removed***
         ],
         "pendingRequests": [],
-        "exp": 0,
+        "exp": 12220,
         "_id": "60d927a6669ad125fc25c822",
         "username": "testuser",
         "email": "testuser@gmail.com",
+        "currentLevel": 32,
+        "highestScore":1000000,
+        "gameInvites": []
         "password": "$2a$10$DouUS0K09aI69O6elkFTWO8DdUI1E4EpLwdGO4CpM9z46qSNuJJ.e",
         "createdAt": "2021-06-28T01:36:38.881Z",
         "updatedAt": "2021-06-28T01:38:31.022Z"
@@ -247,7 +267,7 @@ REQUEST
 Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
 ```
 
-RESPONSE
+RESPONSE: newly created single player game
 
 ```
 {
@@ -291,17 +311,17 @@ Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoi
 
 ```
 {
-// Score from previous turn, ***NOT cumulative score***
+// Score from previous turn
  "turnScore":4001,
- 
+
  "gameID": "60d92e08669ad125fc25c823",
- 
+
  //Guess from previous turn
- "userGuess": {"lat":12.341, "lng":-124.234} 
-} 
+ "userGuess": {"lat":12.341, "lng":-124.234}
+}
 ```
 
-RESPONSE:
+RESPONSE: updated single player game
 
 ```
 {
@@ -321,6 +341,213 @@ RESPONSE:
         "createdAt": "2021-06-28T02:03:52.983Z",
         "updatedAt": "2021-06-28T02:11:43.657Z"
     }
+}
+```
+
+---
+
+GAME GET: http://localhost:8000/game/multiplayer CREATES A MULTIPLAYER GAME
+
+REQ
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+RES: newly created game
+
+```
+{ //sancar's account
+    "game": {
+        "active": true,
+        "isMultiplayer":true,
+        "userID":"60asdfwerasdf",
+        "currentScore": 0,
+        "locations": [... ref previous example],
+        "currentTurn": 1,
+        "guesses": [],//Guesses have no shape
+        "multiplayerGameID":"60d92e08669ad125fc25c823" //sancar's game._id when the game was created, common to all players
+        "_id": "60d92e08669ad125fc25c823",
+        "userID": "60d927a6669ad125fc25c822",
+        "createdAt": "2021-06-28T02:03:52.983Z",
+        "updatedAt": "2021-06-28T02:11:43.657Z"
+    }
+}
+```
+
+---
+
+GAME POST: http://localhost:8000/game/multiplayer/send-invite SENDS INVITE *to a friend after the newly created multiplayer game
+
+REQ
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+```
+//from sancar's to kipvla
+{
+"gameID": 60d92e08669ad125fc25c823 //multiplayerGameID from sancar
+"userToInviteID": 60d7951d830a6f13986829bc //kipvla's id (has to be in the friend's list to be able to send invite)
+}
+```
+
+RES: msg
+
+```
+{ msg: 'Game invitation sent!' }
+```
+
+---
+
+GAME POST: http://localhost:8000/game/multiplayer/accept-invite ACCEPT INVITE *from gameInvites in userProfile
+
+REQ: from kipvla's account
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+```
+{
+gameID: "60d92e08669ad125fc25c823" //from game invites in the profile
+}
+```
+
+RES: instance of newly created game
+
+```
+{
+    "game": {
+        "active": true,
+        "isMultiplayer":true,
+        "userID":"60d7951d830a6f13986829bc",
+        "currentScore": 0,
+        "locations": [... ref previous example],
+        "currentTurn": 1,
+        "guesses": [], //Guesses have no shape
+        "multiplayerGameID":"60d92e08669ad125fc25c823" //game ID (sancar's) when the game was created
+        "_id": "60d92e08669ad125fc2asdf", //player's game instance- kipvla's
+        "userID": "60d927a6669ad125fc25c821", //kipvla's account
+        "createdAt": "2021-06-28T02:03:52.983Z",
+        "updatedAt": "2021-06-28T02:11:43.657Z"
+    }
+}
+```
+
+---
+
+GAME POST: http://localhost:8000/game/multiplayer/decline-invite DECLINE INVITE *from gameInvites in userProfile
+
+REQ: from charcarr's account
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+```
+{
+"gameID" :  60d92e08669ad125fc25c823 //from game invites in the profile
+}
+```
+
+RES: msg
+
+```
+{ msg: 'Invitation declined!' }
+```
+
+---
+
+GAME PUT: http://localhost:8000/game/multiplayer/update UPDATES MULTIPLAYER GAMES
+
+REQ
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+```
+{
+"turnScore":3000,
+"gameID":60d92e08669ad125fc25c823,
+"userGuess": {
+            lat: 132
+            lng:123
+            dist:1234
+            ...
+            } //userguess does not have a shape yet send anything uniform
+}
+
+```
+
+RES: updated game
+
+```
+{
+    "game": {
+        "active": true,
+        "isMultiplayer":true,
+        "userID":"60d7951d830a6f13986829bc",
+        "currentScore": 3000,
+        "locations": [... ref previous example],
+        "currentTurn": 2,
+        "guesses": [
+        	{
+            "lat": 132
+            "lng":123
+            "dist":1234
+            ...
+            }
+        ], //Guesses have no shape
+        multiplayerGameID:"60d92e08669ad125fc25c823" //gameID when the game was created, common to all players
+        "_id": "60d92e08669ad125fc25asdf", //player's game instance
+        "userID": "60d927a6669ad125fc25c821", //kipvla's account
+        "createdAt": "2021-06-28T02:03:52.983Z",
+        "updatedAt": "2021-06-28T02:11:43.657Z"
+    }
+}
+```
+
+---
+
+GAME GET: http://localhost:8000/game/multiplayer/results/:gameID GETS AN ARRAY OF THE MULTIPLAYER GAME INSTANCES FROM ALL PLAYERS
+
+REQ
+
+```
+Authorization : "Bearer eyJhbGciOiJIUzI1NiIsIR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjBkNzk1MWQ4MzBhNmYxMzk4NjgyOWJjIn0sImlhdCI6MTYyNDc0ODQ1MSwiZXhwIjoxNjI0NzUyMDUxfQ.rNNjkp1aTAIFP66BaEXA7X-mTNQhw4LPepBbK4Zkyb4"
+```
+
+```
+{
+"gameID": "60d92e08669ad125fc25c823" //multiplayer gameId
+}
+```
+
+RES: Array of all multiplayer game instances
+
+```
+{
+	results: [
+	{
+    "game": {..."currentScore": 3002,
+			 ..."userID": "60d927a6669ad125fc25c821", //kipvla's account ...}
+	},
+	{
+    "game": {..."currentScore": 3005,
+			 ..."userID": "60d927a6669ad125fc25c823", //charcarr's account ...}
+	},
+	{
+    "game": {..."currentScore": 3001,
+			 ..."userID": "60d927a6669ad125fc25c834", //sancarr's account ...}
+	},
+	{
+    "game": {..."currentScore": 200,
+			 ..."userID": "60d927a6669ad125fc25cas4", //ujwalka's account ...}
+	},
+	]
 }
 ```
 
