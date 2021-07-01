@@ -24,9 +24,10 @@ export const loginFunction = async (
   if (!isMatch)
     return res.status(401).json({ msg: 'Invalid username or password!' });
   const userPayload = { user: { id: user._id } };
+
   jwt.sign(
     userPayload,
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET as string,
     { expiresIn: 3600 },
     (err, token) => {
       if (err) throw err;

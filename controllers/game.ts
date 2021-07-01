@@ -200,6 +200,110 @@ const getMultiplayerResults = async (req: Request, res: Response) => {
   }
 };
 
+const getGlobalLeaderboard = async (req: Request, res: Response) => {
+  try {
+    // Get all games that have ended
+    const allResults = await Game.aggregate([
+      {
+        $match: {
+          active: false,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          let: { userID: '$userID' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$_id', '$$userID'],
+                },
+              },
+            },
+            {
+              $project: {
+                email: 1,
+                username: 1,
+                exp: 1,
+                currentLevel: 1,
+              },
+            },
+          ],
+          as: 'userInfo',
+        },
+      },
+      {
+        $addFields: {
+          userEmail: { $arrayElemAt: ['$userInfo', 0] },
+        },
+      },
+      {
+        $addFields: {
+          userTotalGameCounter: '$userEmail.email',
+          username: '$userEmail.username',
+          exp: '$userEmail.exp',
+          currentLevel: '$userEmail.currentLevel',
+        },
+      },
+      {
+        $group: {
+          _id: '$userEmail',
+          userTotalGameCounter: { $sum: 1 },
+          currentScore: { $sum: '$currentScore' },
+          userEmail: { $first: '$userTotalGameCounter' },
+          username: { $first: '$username' },
+          exp: { $first: '$exp' },
+          currentLevel: { $first: '$currentLevel' },
+        },
+      },
+      {
+        $project: {
+          scoreGameRatio: {
+            $divide: ['$currentScore', '$userTotalGameCounter'],
+          },
+          userEmail: 1,
+          username: 1,
+          exp: 1,
+          currentScore: 1,
+          userTotalGameCounter: 1,
+          currentLevel: 1,
+        },
+      },
+    ]);
+    const cleanResults = [];
+    for (let i = 0; i < allResults.length; i++) {
+      const {
+        exp,
+        userEmail,
+        username,
+        scoreGameRatio,
+        currentScore,
+        userTotalGameCounter,
+        currentLevel,
+      } = allResults[i];
+      cleanResults.push({
+        exp,
+        userEmail,
+        username,
+        scoreGameRatio,
+        currentScore,
+        userTotalGameCounter,
+        currentLevel,
+      });
+    }
+    res.status(200).json({
+      leaderboardResults: cleanResults.sort(
+        (a, b) => b.scoreGameRatio - a.scoreGameRatio
+      ),
+    });
+  } catch (e) {
+    console.log(e);
+    res.send('Internal Server Error!');
+    res.status(500);
+  }
+};
+
 export const gameController = {
   createGame,
   updateGame,
@@ -209,4 +313,5 @@ export const gameController = {
   declineGameInvite,
   updateMultiplayerGame,
   getMultiplayerResults,
+  getGlobalLeaderboard,
 };
