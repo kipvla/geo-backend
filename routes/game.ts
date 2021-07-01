@@ -33,4 +33,6 @@ gameRouter.get(
   gameController.getMultiplayerResults
 );
 
+gameRouter.get('/get-leaderboards', gameController.getGlobalLeaderboard);
+
 export default gameRouter;
