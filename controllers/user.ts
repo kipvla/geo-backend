@@ -29,6 +29,17 @@ const getUserByUsername = async (req: Request, res: Response) => {
   }
 };
 
+const getUserList = async (req: Request, res: Response) => {
+  try {
+    const usernames = await User.find({}, { username: 1, _id: 0 });
+    console.log(usernames);
+  } catch (e) {
+    console.log(e);
+    res.status(500);
+    res.send('Internal Server Error!');
+  }
+};
+
 const sendFriendRequest = async (req: Request, res: Response) => {
   try {
     const { friendId, friendName } = req.body;
@@ -121,8 +132,9 @@ const declineFriendRequest = async (req: Request, res: Response) => {
 };
 export const userController = {
   getUser,
+  getUserByUsername,
+  getUserList,
   sendFriendRequest,
   acceptFriendRequest,
   declineFriendRequest,
-  getUserByUsername,
 };

@@ -7,6 +7,7 @@ const userRouter = Router();
 
 userRouter.get('/', auth, userController.getUser);
 userRouter.get('/:username', auth, userController.getUserByUsername);
+userRouter.get('/getAll', auth, userController.getUserList);
 
 userRouter.put('/add-friend', auth, userController.sendFriendRequest);
 userRouter.put('/accept-request', auth, userController.acceptFriendRequest);
