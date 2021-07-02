@@ -43,35 +43,58 @@ const getUserList = async (req: Request, res: Response) => {
 
 const sendFriendRequest = async (req: Request, res: Response) => {
   try {
-    const { friendId, friendName } = req.body;
-    res.status(200);
+    const { friendName } = req.body;
+
     const userId: string = res.locals.user.id;
 
     const user = await User.findById(userId);
 
+    const friend = await User.findOne({ username: friendName });
+
+    if (user.username === friendName) {
+      return res.status(404).json({ msg: 'Sad... Trying to add yourself' });
+    }
+
+    if (!friend) {
+      return res.status(404).json({ msg: 'User does not exist' });
+    }
+
     if (
       user.pendingRequests.some(
-        (request: { id: string; username: string }) => request.id === friendId
-      ) ||
-      user.friendRequests.some(
-        (request: { id: string; username: string }) => request.id === friendId
+        (request: { id: string; username: string }) =>
+          request.username === friendName
       )
     ) {
-      return res
-        .status(409)
-        .json({ msg: 'pending request or in friend requests' });
+      return res.status(409).json({ msg: 'User in pending requests' });
+    }
+    if (
+      user.friendRequests.some(
+        (request: { id: string; username: string }) =>
+          request.username === friendName
+      )
+    ) {
+      return res.status(409).json({ msg: 'User in friend Requests' });
+    }
+    if (
+      user.friendsList.some(
+        (request: { id: string; username: string }) =>
+          request.username === friendName
+      )
+    ) {
+      return res.status(409).json({ msg: 'User already in friends list' });
     }
 
     const newUser = await User.findByIdAndUpdate(
       userId,
-      { $push: { pendingRequests: { id: friendId, username: friendName } } },
+      { $push: { pendingRequests: { id: friend._id, username: friendName } } },
       { new: true }
     );
 
-    await User.findByIdAndUpdate(friendId, {
+    await User.findByIdAndUpdate(friend._id, {
       $push: { friendRequests: { id: userId, username: user.username } },
     });
 
+    res.status(200);
     res.json({ user: newUser });
   } catch (e) {
     console.log(e);
@@ -79,12 +102,22 @@ const sendFriendRequest = async (req: Request, res: Response) => {
     res.status(500);
   }
 };
+
 const acceptFriendRequest = async (req: Request, res: Response) => {
   try {
     const userId: string = res.locals.user.id;
     const { friendId, friendName } = req.body;
 
     const user = await User.findById(userId);
+
+    if (
+      user.friendsList.some(
+        (request: { id: string; username: string }) =>
+          request.username === friendName
+      )
+    ) {
+      return res.status(409).json({ msg: 'User already in friends list' });
+    }
 
     const newUser = await User.findByIdAndUpdate(
       userId,
