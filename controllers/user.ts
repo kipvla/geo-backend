@@ -44,21 +44,16 @@ const getUserList = async (req: Request, res: Response) => {
 const sendFriendRequest = async (req: Request, res: Response) => {
   try {
     const { friendName } = req.body;
-
     const userId: string = res.locals.user.id;
-
     const user = await User.findById(userId);
-
     const friend = await User.findOne({ username: friendName });
 
     if (user.username === friendName) {
       return res.status(404).json({ msg: 'Sad... Trying to add yourself' });
     }
-
     if (!friend) {
       return res.status(404).json({ msg: 'User does not exist' });
     }
-
     if (
       user.pendingRequests.some(
         (request: { id: string; username: string }) =>
