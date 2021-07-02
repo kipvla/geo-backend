@@ -11,6 +11,10 @@ const GameSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    template: {
+      type: Boolean,
+      default: false,
+    },
     userID: {
       type: ObjectID,
       required: true,
