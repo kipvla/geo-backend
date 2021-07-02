@@ -32,6 +32,13 @@ gameRouter.get(
   auth,
   gameController.getMultiplayerResults
 );
+gameRouter.get(
+  '/all-multiplayer-games',
+  auth,
+  gameController.getMultiplayerGamesByUserId
+);
+
+gameRouter.post('/calculate-score', auth, gameController.calculateScore);
 
 gameRouter.get('/get-leaderboards', gameController.getGlobalLeaderboard);
 

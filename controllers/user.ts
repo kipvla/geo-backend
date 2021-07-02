@@ -105,15 +105,6 @@ const acceptFriendRequest = async (req: Request, res: Response) => {
 
     const user = await User.findById(userId);
 
-    if (
-      user.friendsList.some(
-        (request: { id: string; username: string }) =>
-          request.username === friendName
-      )
-    ) {
-      return res.status(409).json({ msg: 'User already in friends list' });
-    }
-
     const newUser = await User.findByIdAndUpdate(
       userId,
       {
