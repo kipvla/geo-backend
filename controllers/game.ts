@@ -218,7 +218,6 @@ const getMultiplayerResults = async (req: Request, res: Response) => {
     const allResults = await Game.find({ multiplayerGameID: gameID }).sort({
       currentScore: 1,
     });
-    console.log(allResults, gameID);
     res.status(201).json({ results: allResults });
   } catch (e) {
     console.log(e);
@@ -232,6 +231,7 @@ const getMultiplayerGamesByUserId = async (req: Request, res: Response) => {
       userID: res.locals.user.id,
       isMultiplayer: true,
     });
+
     res.status(201).json({ results: allResults });
   } catch (e) {
     console.log(e);
