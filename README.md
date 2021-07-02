@@ -1,5 +1,3 @@
-charley's push test will delete
-
 **AUTHORIZATION/ AUTHENTICATION**
 
 AUTH **POST**: http://localhost:3001/auth/login

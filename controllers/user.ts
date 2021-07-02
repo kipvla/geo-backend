@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-
 import { User } from '../models';
 
 const getUser = async (req: Request, res: Response) => {
@@ -31,8 +30,10 @@ const getUserByUsername = async (req: Request, res: Response) => {
 
 const getUserList = async (req: Request, res: Response) => {
   try {
-    const usernames = await User.find({}, { username: 1, _id: 0 });
+    console.log('im here in the controller!');
+    const usernames = await User.find({}, { username: 1});
     console.log(usernames);
+    res.status(200).send(usernames);
   } catch (e) {
     console.log(e);
     res.status(500);
