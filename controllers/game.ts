@@ -136,7 +136,11 @@ const acceptGameInvite = async (req: Request, res: Response) => {
       template: true,
     }).lean();
     delete game._id;
-    const multiplayerGame = await Game.create({ ...game, userID: user._id });
+    const multiplayerGame = await Game.create({
+      ...game,
+      userID: user._id,
+      template: false,
+    });
     res.status(200).json({ game: multiplayerGame });
   } catch (e) {
     res.send('Internal Server Error!');
@@ -162,13 +166,18 @@ const updateMultiplayerGame = async (req: Request, res: Response) => {
     const currentGame = await Game.findOne({
       multiplayerGameID: gameID,
       userID: res.locals.user.id,
+      template: false,
     });
     if (!currentGame.active)
       return res.status(401).json({ msg: 'Game already ended!' });
     const { currentTurn, locations } = currentGame;
     const shouldGameEnd: boolean = currentTurn === locations.length;
     const updatedGame = await Game.findOneAndUpdate(
-      { multiplayerGameID: gameID, userID: res.locals.user.id },
+      {
+        multiplayerGameID: gameID,
+        userID: res.locals.user.id,
+        template: false,
+      },
       {
         $inc: { currentScore: turnScore, currentTurn: 1 },
         $push: { guesses: userGuess },
