@@ -31,7 +31,7 @@ const getUserByUsername = async (req: Request, res: Response) => {
 const getUserList = async (req: Request, res: Response) => {
   try {
     console.log('im here in the controller!');
-    const usernames = await User.find({}, { username: 1});
+    const usernames = await User.find({}, { username: 1 });
     console.log(usernames);
     res.status(200).send(usernames);
   } catch (e) {
@@ -81,7 +81,11 @@ const sendFriendRequest = async (req: Request, res: Response) => {
 
     const newUser = await User.findByIdAndUpdate(
       userId,
-      { $push: { pendingRequests: { id: friend._id, username: friendName } } },
+      {
+        $push: {
+          pendingRequests: { id: friend._id.toString(), username: friendName },
+        },
+      },
       { new: true }
     );
 
