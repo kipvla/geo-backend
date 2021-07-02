@@ -71,21 +71,37 @@ const createMultiplayerGame = async (req: Request, res: Response) => {
   try {
     const allPlaces = await Place.find();
     const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
-    const newGame = await Game.create({
+
+    const newOriginalGame = await Game.create({
       locations: shuffledPlaces,
       userID: res.locals.user.id,
+      template: true,
       isMultiplayer: true,
     });
-    const updatedGame = await Game.findByIdAndUpdate(
-      newGame._id,
+    await Game.findByIdAndUpdate(
+      newOriginalGame._id,
       {
-        multiplayerGameID: newGame._id,
+        multiplayerGameID: newOriginalGame._id,
       },
       { new: true }
     );
 
-    res.status(201).json({ game: updatedGame });
+    const userGame = await Game.create({
+      locations: shuffledPlaces,
+      userID: res.locals.user.id,
+      isMultiplayer: true,
+    });
+    const updatedUserGame = await Game.findByIdAndUpdate(
+      userGame._id,
+      {
+        multiplayerGameID: newOriginalGame._id,
+      },
+      { new: true }
+    );
+
+    res.status(201).json({ game: updatedUserGame });
   } catch (e) {
+    console.log(e);
     res.send('Internal Server Error!');
     res.status(500);
   }
@@ -115,10 +131,16 @@ const acceptGameInvite = async (req: Request, res: Response) => {
     const user = await User.findByIdAndUpdate(res.locals.user.id, {
       $pull: { gameInvites: { gameID } },
     });
-    const game = await Game.findById(gameID).lean();
-    console.log(game);
+    const game = await Game.findOne({
+      multiplayerGameID: gameID,
+      template: true,
+    }).lean();
     delete game._id;
-    const multiplayerGame = await Game.create({ ...game, userID: user._id });
+    const multiplayerGame = await Game.create({
+      ...game,
+      userID: user._id,
+      template: false,
+    });
     res.status(200).json({ game: multiplayerGame });
   } catch (e) {
     res.send('Internal Server Error!');
@@ -144,13 +166,18 @@ const updateMultiplayerGame = async (req: Request, res: Response) => {
     const currentGame = await Game.findOne({
       multiplayerGameID: gameID,
       userID: res.locals.user.id,
+      template: false,
     });
     if (!currentGame.active)
       return res.status(401).json({ msg: 'Game already ended!' });
     const { currentTurn, locations } = currentGame;
     const shouldGameEnd: boolean = currentTurn === locations.length;
     const updatedGame = await Game.findOneAndUpdate(
-      { multiplayerGameID: gameID, userID: res.locals.user.id },
+      {
+        multiplayerGameID: gameID,
+        userID: res.locals.user.id,
+        template: false,
+      },
       {
         $inc: { currentScore: turnScore, currentTurn: 1 },
         $push: { guesses: userGuess },
