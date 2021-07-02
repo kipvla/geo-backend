@@ -32,7 +32,6 @@ const getUserByUsername = async (req: Request, res: Response) => {
 const getUserList = async (req: Request, res: Response) => {
   try {
     const usernames = await User.find({}, { username: 1, _id: 0 });
-    console.log(usernames);
   } catch (e) {
     console.log(e);
     res.status(500);
@@ -50,8 +49,12 @@ const sendFriendRequest = async (req: Request, res: Response) => {
 
     const friend = await User.findOne({ username: friendName });
 
+    if (user.username === friendName) {
+      return res.status(404).json({ msg: 'Sad... Trying to add yourself' });
+    }
+
     if (!friend) {
-      res.status(404).json({ msg: 'User does not exist' });
+      return res.status(404).json({ msg: 'User does not exist' });
     }
 
     if (
