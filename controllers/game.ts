@@ -317,6 +317,20 @@ const getGlobalLeaderboard = async (req: Request, res: Response) => {
   }
 };
 
+const calculateScore = async (req: Request, res: Response) => {
+  try {
+    const allResults = await Game.find({
+      userID: res.locals.user.id,
+      isMultiplayer: true,
+    });
+    res.status(201).json({ results: allResults });
+  } catch (e) {
+    console.log(e);
+    res.send('Internal Server Error!');
+    res.status(500);
+  }
+};
+
 export const gameController = {
   createGame,
   updateGame,
@@ -328,4 +342,5 @@ export const gameController = {
   getMultiplayerResults,
   getGlobalLeaderboard,
   getMultiplayerGamesByUserId,
+  calculateScore,
 };
