@@ -32,6 +32,11 @@ gameRouter.get(
   auth,
   gameController.getMultiplayerResults
 );
+gameRouter.get(
+  '/all-multiplayer-games',
+  auth,
+  gameController.getMultiplayerGamesByUserId
+);
 
 gameRouter.get('/get-leaderboards', gameController.getGlobalLeaderboard);
 
