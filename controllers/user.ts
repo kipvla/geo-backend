@@ -4,9 +4,7 @@ import { User } from '../models';
 const getUser = async (req: Request, res: Response) => {
   try {
     const userId: string = res.locals.user.id;
-
     const user = await User.findById(userId).select('-password');
-
     res.status(200);
     res.json({ user });
   } catch (e) {

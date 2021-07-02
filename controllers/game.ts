@@ -71,20 +71,34 @@ const createMultiplayerGame = async (req: Request, res: Response) => {
   try {
     const allPlaces = await Place.find();
     const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
-    const newGame = await Game.create({
+
+    const newOriginalGame = await Game.create({
       locations: shuffledPlaces,
-      userID: res.locals.user.id,
+      userID: 'original',
       isMultiplayer: true,
     });
-    const updatedGame = await Game.findByIdAndUpdate(
-      newGame._id,
+    await Game.findByIdAndUpdate(
+      newOriginalGame._id,
       {
-        multiplayerGameID: newGame._id,
+        multiplayerGameID: newOriginalGame._id,
       },
       { new: true }
     );
 
-    res.status(201).json({ game: updatedGame });
+    const userGame = await Game.create({
+      locations: shuffledPlaces,
+      userID: res.locals.user.id,
+      isMultiplayer: true,
+    });
+    const updatedUserGame = await Game.findByIdAndUpdate(
+      userGame._id,
+      {
+        multiplayerGameID: newOriginalGame._id,
+      },
+      { new: true }
+    );
+
+    res.status(201).json({ game: updatedUserGame });
   } catch (e) {
     res.send('Internal Server Error!');
     res.status(500);
@@ -115,8 +129,10 @@ const acceptGameInvite = async (req: Request, res: Response) => {
     const user = await User.findByIdAndUpdate(res.locals.user.id, {
       $pull: { gameInvites: { gameID } },
     });
-    const game = await Game.findById(gameID).lean();
-    console.log(game);
+    const game = await Game.findOne({
+      multiplayerGameID: gameID,
+      userID: 'original',
+    }).lean();
     delete game._id;
     const multiplayerGame = await Game.create({ ...game, userID: user._id });
     res.status(200).json({ game: multiplayerGame });
