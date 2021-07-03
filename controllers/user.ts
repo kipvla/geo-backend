@@ -25,6 +25,22 @@ const getUserByUsername = async (req: Request, res: Response) => {
     res.status(500);
   }
 };
+const getUserByUserId = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+
+  console.log('in by userId');
+  try {
+    console.log(req.params);
+    const user = await User.findById(userId).select('-password');
+    console.log(user);
+    if (!user) return res.status(404).json({ msg: ' User does not exist' });
+    res.status(200);
+    res.json({ user });
+  } catch (e) {
+    res.send('Internal Server Error!');
+    res.status(500);
+  }
+};
 
 const getUserList = async (req: Request, res: Response) => {
   try {
@@ -159,4 +175,5 @@ export const userController = {
   sendFriendRequest,
   acceptFriendRequest,
   declineFriendRequest,
+  getUserByUserId,
 };
