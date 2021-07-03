@@ -5,6 +5,7 @@ import { User } from '../models';
 import { shuffle } from 'lodash';
 import { calculateExp } from '../utils';
 import { calculateLevel } from '../utils';
+import { ObjectID } from 'mongodb';
 
 const createGame = async (req: Request, res: Response) => {
   try {
@@ -215,10 +216,49 @@ const updateMultiplayerGame = async (req: Request, res: Response) => {
 const getMultiplayerResults = async (req: Request, res: Response) => {
   try {
     const { gameID } = req.params;
-    const allResults = await Game.find({ multiplayerGameID: gameID }).sort({
-      currentScore: 1,
-    });
-    console.log(allResults, gameID);
+    // const allResults = await Game.find({
+    //   multiplayerGameID: gameID,
+    //   template: false,
+    // }).sort({
+    //   currentScore: 1,
+    // });
+    const allResults = await Game.aggregate([
+      {
+        $match: {
+          multiplayerGameID: new ObjectID(gameID),
+          template: false,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          let: { userID: '$userID' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$_id', '$$userID'],
+                },
+              },
+            },
+            {
+              $project: {
+                email: 1,
+                username: 1,
+                exp: 1,
+                currentLevel: 1,
+              },
+            },
+          ],
+          as: 'userInfo',
+        },
+      },
+      {
+        $sort: {
+          currentScore: -1,
+        },
+      },
+    ]);
     res.status(201).json({ results: allResults });
   } catch (e) {
     console.log(e);
@@ -231,6 +271,7 @@ const getMultiplayerGamesByUserId = async (req: Request, res: Response) => {
     const allResults = await Game.find({
       userID: res.locals.user.id,
       isMultiplayer: true,
+      template: false,
     });
     res.status(201).json({ results: allResults });
   } catch (e) {
