@@ -3,8 +3,9 @@ import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
 import dotenv from 'dotenv';
-
 import { Place } from '../models/place';
+
+const piexif = require('piexifjs');
 
 dotenv.config();
 
@@ -107,4 +108,32 @@ const getPlaceFields = async (req: Request, res: Response) => {
   }
 };
 
-export const placeController = { addPlace, getPlaceFields, uploadImage };
+const crowdSource = async (req: Request, res: Response) => {
+  try {
+    const { placeImages, title, latitude, longitude } = req.body;
+
+    const arrayOfURL = [];
+
+    for (let i = 0; i < placeImages.length; i++) {
+      const { data, mime } = placeImages[i];
+      const exIfObject = piexif.load(data);
+      console.log(exIfObject);
+      // const currentURL = await uploadImage(data, mime);
+      // arrayOfURL.push(currentURL);
+    }
+
+    // await Place.create({ title, latitude, longitude, images: arrayOfURL });
+
+    res.status(200).json({ msg: 'Thanks for your contribution!...' });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ msg: 'Internal Server Error!' });
+  }
+};
+
+export const placeController = {
+  addPlace,
+  crowdSource,
+  getPlaceFields,
+  uploadImage,
+};

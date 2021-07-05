@@ -40,6 +40,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mongoose": "^5.12.11",
+    "piexifjs": "^1.0.6",
     "shortid": "^2.2.16",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.9.0",
