@@ -88,3 +88,19 @@ export const calculateExp = (currentLevel: number, score: number) => {
 export const calculateLevel = (totalExp: number) => {
   return parseInt((totalExp / 100).toString());
 };
+
+
+export const getDMS2DD = (
+  days: number,
+  minutes: number,
+  seconds: number,
+  direction: string
+) => {
+  direction.toUpperCase();
+  var dd = days + minutes / 60 + seconds / (60 * 60);
+  //alert(dd);
+  if (direction == 'S' || direction == 'W') {
+    dd = dd * -1;
+  } // Don't do anything for N or E
+  return dd;
+};

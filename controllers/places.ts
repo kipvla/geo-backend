@@ -4,6 +4,7 @@ import shortid from 'shortid';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import { Place } from '../models/place';
+import { getDMS2DD } from '../utils';
 
 const piexif = require('piexifjs');
 
@@ -116,8 +117,27 @@ const crowdSource = async (req: Request, res: Response) => {
 
     for (let i = 0; i < placeImages.length; i++) {
       const { data, mime } = placeImages[i];
-      const exIfObject = piexif.load(data);
-      console.log(exIfObject);
+      const { GPS } = piexif.load(data);
+      if (Object.entries(GPS).length > 0) {
+        const lat = getDMS2DD(
+          GPS['2'][0][0],
+          GPS['2'][1][0],
+          GPS['2'][2][0] / 100,
+          GPS['1']
+        );
+        const long = getDMS2DD(
+          GPS['4'][0][0],
+          GPS['4'][1][0],
+          GPS['4'][2][0] / 100,
+          GPS['3']
+        );
+        console.log('LAT: ', lat);
+        console.log('LONG: ', long);
+      } else {
+        res.status(400).json({ msg: 'No GPS co-ordinates could be found :(' });
+      }
+
+      //console.log(exIfObject);
       // const currentURL = await uploadImage(data, mime);
       // arrayOfURL.push(currentURL);
     }
