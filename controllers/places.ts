@@ -135,7 +135,7 @@ const crowdSource = async (req: Request, res: Response) => {
 
         const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
         const response = await axios.get(url);
-        const title = response.data.address.city;
+        const title = response.data.address.city || response.data.address.town;
 
         const currentURL = await uploadImage(data, mime);
 
@@ -152,7 +152,9 @@ const crowdSource = async (req: Request, res: Response) => {
           });
         }
       } else {
-        res.status(400).json({ msg: 'No GPS co-ordinates could be found :(' });
+        return res
+          .status(400)
+          .json({ msg: 'No GPS co-ordinates could be found :(' });
       }
     }
 
