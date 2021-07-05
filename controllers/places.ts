@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import axios from 'axios';
 import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
@@ -125,14 +126,18 @@ const crowdSource = async (req: Request, res: Response) => {
           GPS['2'][2][0] / 100,
           GPS['1']
         );
-        const long = getDMS2DD(
+        const lon = getDMS2DD(
           GPS['4'][0][0],
           GPS['4'][1][0],
           GPS['4'][2][0] / 100,
           GPS['3']
         );
         console.log('LAT: ', lat);
-        console.log('LONG: ', long);
+        console.log('LONG: ', lon);
+
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+        const response = await axios.get(url);
+        console.log(response);
       } else {
         res.status(400).json({ msg: 'No GPS co-ordinates could be found :(' });
       }
