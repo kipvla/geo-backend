@@ -112,42 +112,49 @@ const getPlaceFields = async (req: Request, res: Response) => {
 
 const crowdSource = async (req: Request, res: Response) => {
   try {
-    const { placeImages, title, latitude, longitude } = req.body;
-
-    const arrayOfURL = [];
+    const { placeImages } = req.body;
 
     for (let i = 0; i < placeImages.length; i++) {
       const { data, mime } = placeImages[i];
       const { GPS } = piexif.load(data);
       if (Object.entries(GPS).length > 0) {
-        const lat = getDMS2DD(
+        const latitude = getDMS2DD(
           GPS['2'][0][0],
           GPS['2'][1][0],
           GPS['2'][2][0] / 100,
           GPS['1']
         );
-        const lon = getDMS2DD(
+        const longitude = getDMS2DD(
           GPS['4'][0][0],
           GPS['4'][1][0],
           GPS['4'][2][0] / 100,
           GPS['3']
         );
-        console.log('LAT: ', lat);
-        console.log('LONG: ', lon);
+        console.log('LAT: ', latitude);
+        console.log('LONG: ', longitude);
 
-        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
         const response = await axios.get(url);
-        console.log(response);
+        const title = response.data.address.city;
+
+        const currentURL = await uploadImage(data, mime);
+
+        const place = await Place.findOne({ title });
+        if (place) {
+          place.images.push(currentURL);
+          place.save();
+        } else {
+          await Place.create({
+            title,
+            latitude,
+            longitude,
+            images: [currentURL],
+          });
+        }
       } else {
         res.status(400).json({ msg: 'No GPS co-ordinates could be found :(' });
       }
-
-      //console.log(exIfObject);
-      // const currentURL = await uploadImage(data, mime);
-      // arrayOfURL.push(currentURL);
     }
-
-    // await Place.create({ title, latitude, longitude, images: arrayOfURL });
 
     res.status(200).json({ msg: 'Thanks for your contribution!...' });
   } catch (e) {
