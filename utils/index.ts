@@ -96,7 +96,7 @@ export const getDMS2DD = (
   minutes: number,
   seconds: number,
   direction: string
-) => {
+): number => {
   direction.toUpperCase();
   var dd = days + minutes / 60 + seconds / (60 * 60);
   if (direction == 'S' || direction == 'W') {
@@ -133,11 +133,16 @@ export const reverseGeocode = async (GPS: any): Promise<any> => {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
     const response = await axios.get(url);
     const title =
-      response.data.address.city ||
-      response.data.address.town ||
-      response.data.address.village;
+      response.data.address?.city ||
+      response.data.address?.town ||
+      response.data.address?.village ||
+      response.data.address?.tourism ||
+      response.data.address?.hamlet;
+
     if (title) {
       return { latitude, longitude, title };
+    } else {
+      console.log(response.data.address);
     }
   }
   return null;
