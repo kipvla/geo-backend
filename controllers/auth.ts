@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
 import { User } from '../models';
 import { loginFunction, validateEmail } from '../utils';
@@ -51,8 +52,17 @@ export const register = async (req: Request, res: Response) => {
       email: email.trim().toLowerCase(),
       password: hashedPassword,
     });
+    const userPayload = { user: { id: newUser._id } };
 
-    res.json({ msg: 'User created successfully' });
+    jwt.sign(
+      userPayload,
+      process.env.JWT_SECRET as string,
+      { expiresIn: 36000 },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ token });
+      }
+    );
   } catch (e) {
     console.log(e);
     res.status(500).json({ msg: 'Internal Server Error!' });
