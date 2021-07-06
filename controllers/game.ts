@@ -11,6 +11,11 @@ const createGame = async (req: Request, res: Response) => {
   try {
     const allPlaces = await Place.find();
     const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
+
+    shuffledPlaces.forEach((place) => {
+      place.images = shuffle(place.images).slice(0, 5);
+    });
+
     const newGame = await Game.create({
       locations: shuffledPlaces,
       userID: res.locals.user.id,
@@ -72,6 +77,10 @@ const createMultiplayerGame = async (req: Request, res: Response) => {
   try {
     const allPlaces = await Place.find();
     const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
+
+    shuffledPlaces.forEach((place) => {
+      place.images = shuffle(place.images).slice(0, 5);
+    });
 
     const newOriginalGame = await Game.create({
       locations: shuffledPlaces,
