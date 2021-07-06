@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
+import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -98,9 +99,46 @@ export const getDMS2DD = (
 ) => {
   direction.toUpperCase();
   var dd = days + minutes / 60 + seconds / (60 * 60);
-  //alert(dd);
   if (direction == 'S' || direction == 'W') {
     dd = dd * -1;
   } // Don't do anything for N or E
   return dd;
+};
+
+
+const parseGPS = (GPS: any) => {
+  if (Object.entries(GPS).length > 0) {
+    const latitude = getDMS2DD(
+      GPS['2'][0][0],
+      GPS['2'][1][0],
+      GPS['2'][2][0] / 100,
+      GPS['1']
+    );
+    const longitude = getDMS2DD(
+      GPS['4'][0][0],
+      GPS['4'][1][0],
+      GPS['4'][2][0] / 100,
+      GPS['3']
+    );
+    return { latitude, longitude };
+  }
+  return null;
+};
+
+export const reverseGeocode = async (GPS: any): Promise<any> => {
+  const coords = parseGPS(GPS);
+  if (coords) {
+    const { latitude, longitude } = coords;
+
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
+    const response = await axios.get(url);
+    const title =
+      response.data.address.city ||
+      response.data.address.town ||
+      response.data.address.village;
+    if (title) {
+      return { latitude, longitude, title };
+    }
+  }
+  return null;
 };

@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
-import axios from 'axios';
 import AWS from 'aws-sdk';
 import shortid from 'shortid';
 import moment from 'moment';
 import dotenv from 'dotenv';
 import { Place } from '../models/place';
-import { getDMS2DD } from '../utils';
+import { reverseGeocode } from '../utils';
 
 const piexif = require('piexifjs');
 
@@ -117,29 +116,14 @@ const crowdSource = async (req: Request, res: Response) => {
     for (let i = 0; i < placeImages.length; i++) {
       const { data, mime } = placeImages[i];
       const { GPS } = piexif.load(data);
-      if (Object.entries(GPS).length > 0) {
-        const latitude = getDMS2DD(
-          GPS['2'][0][0],
-          GPS['2'][1][0],
-          GPS['2'][2][0] / 100,
-          GPS['1']
-        );
-        const longitude = getDMS2DD(
-          GPS['4'][0][0],
-          GPS['4'][1][0],
-          GPS['4'][2][0] / 100,
-          GPS['3']
-        );
-        console.log('LAT: ', latitude);
-        console.log('LONG: ', longitude);
+      const placeData = await reverseGeocode(GPS);
+      console.log(placeData);
 
-        const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
-        const response = await axios.get(url);
-        const title = response.data.address.city || response.data.address.town;
-
+      if (placeData) {
+        const { title, longitude, latitude } = placeData;
         const currentURL = await uploadImage(data, mime);
-
         const place = await Place.findOne({ title });
+
         if (place) {
           place.images.push(currentURL);
           place.save();
