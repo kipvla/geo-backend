@@ -133,7 +133,7 @@ export const reverseGeocode = async (GPS: any): Promise<any> => {
     const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`;
     const response = await axios.get(url);
     const title =
-      response.data.address?.tourism ||
+      response.data.address?.tourism || response.data.address?.county;
       response.data.address?.city ||
       response.data.address?.town ||
       response.data.address?.village ||
