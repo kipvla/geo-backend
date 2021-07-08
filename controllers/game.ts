@@ -9,13 +9,8 @@ import { ObjectID } from 'mongodb';
 
 const createGame = async (req: Request, res: Response) => {
   try {
-    // const allPlaces = await Place.find();
-    // const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
-
-    const place1 = await Place.findOne({ title: 'Vancouver' });
-    const place2 = await Place.findOne({ title: 'North Medford' });
-    const place3 = await Place.findOne({ title: 'Barranquilla' });
-    const shuffledPlaces = [place1, place2, place3];
+    const allPlaces = await Place.find();
+    const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
 
     shuffledPlaces.forEach((place) => {
       place.images = shuffle(place.images).slice(0, 5);
@@ -80,14 +75,8 @@ const updateGame = async (req: Request, res: Response) => {
 
 const createMultiplayerGame = async (req: Request, res: Response) => {
   try {
-    // const allPlaces = await Place.find();
-    // const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
-    // console.log('SHUFFLED', shuffledPlaces);
-    
-    const place1 = await Place.findOne({ title: 'Vancouver' });
-    const place2 = await Place.findOne({ title: 'North Medford' });
-    const place3 = await Place.findOne({ title: 'Barranquilla' });
-    const shuffledPlaces = [place1, place2, place3];
+    const allPlaces = await Place.find();
+    const shuffledPlaces = shuffle(allPlaces).slice(0, 3);
 
     shuffledPlaces.forEach((place) => {
       place.images = shuffle(place.images).slice(0, 5);
